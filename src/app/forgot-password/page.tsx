@@ -18,29 +18,34 @@ import {
 import { Input } from '@/components/ui/input';
 import { MinimaProjectLogo } from '@/components/icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useToast } from "@/hooks/use-toast";
 
-const loginSchema = z.object({
+
+const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
-  password: z.string().min(1, { message: 'Password is required.' }),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const router = useRouter();
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const { toast } = useToast();
+  const form = useForm<ForgotPasswordFormValues>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
-  const onSubmit = (values: LoginFormValues) => {
-    // Placeholder for actual login logic
-    console.log('Login submitted', values);
-    // On successful login, redirect to dashboard
-    router.push('/dashboard');
+  const onSubmit = (values: ForgotPasswordFormValues) => {
+    // Placeholder for actual forgot password logic
+    console.log('Forgot password submitted', values);
+    toast({
+      title: "Password Reset Email Sent",
+      description: `If an account exists for ${values.email}, you will receive an email with instructions to reset your password.`,
+    });
+    // Potentially redirect or show a success message
+    // router.push('/');
   };
 
   return (
@@ -48,8 +53,8 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="items-center text-center">
           <MinimaProjectLogo className="mb-4 h-16 w-16 text-primary" />
-          <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
-          <CardDescription>Log in to access MinimaProject</CardDescription>
+          <CardTitle className="text-3xl font-bold">Reset Password</CardTitle>
+          <CardDescription>Enter your email to receive a password reset link.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -67,40 +72,17 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex items-center justify-between">
-                {/* "Lưu đăng nhập" (Save login) could be a checkbox here */}
-                <Link
-                  href="/forgot-password"
-                  className="text-sm text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
               <Button type="submit" className="w-full">
-                Log In
+                Send Reset Link
               </Button>
             </form>
           </Form>
           <div className="mt-6 text-center text-sm">
-            Don&apos;t have an account?{' '}
-            <Link href="/signup" className="font-medium text-primary hover:underline">
-              Sign up
+            Remember your password?{' '}
+            <Link href="/" className="font-medium text-primary hover:underline">
+              Log in
             </Link>
           </div>
-           {/* TODO: Add "Login with Google/Apple" buttons later */}
         </CardContent>
       </Card>
     </div>

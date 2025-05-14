@@ -19,27 +19,29 @@ import { Input } from '@/components/ui/input';
 import { MinimaProjectLogo } from '@/components/icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-const loginSchema = z.object({
+const signupSchema = z.object({
+  displayName: z.string().min(1, { message: 'Name is required.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
-  password: z.string().min(1, { message: 'Password is required.' }),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type SignupFormValues = z.infer<typeof signupSchema>;
 
-export default function LoginPage() {
+export default function SignupPage() {
   const router = useRouter();
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<SignupFormValues>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
+      displayName: '',
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = (values: LoginFormValues) => {
-    // Placeholder for actual login logic
-    console.log('Login submitted', values);
-    // On successful login, redirect to dashboard
+  const onSubmit = (values: SignupFormValues) => {
+    // Placeholder for actual signup logic
+    console.log('Signup submitted', values);
+    // On successful signup, redirect to dashboard or login
     router.push('/dashboard');
   };
 
@@ -48,12 +50,25 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="items-center text-center">
           <MinimaProjectLogo className="mb-4 h-16 w-16 text-primary" />
-          <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
-          <CardDescription>Log in to access MinimaProject</CardDescription>
+          <CardTitle className="text-3xl font-bold">Create Account</CardTitle>
+          <CardDescription>Join MinimaProject today!</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="displayName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -80,27 +95,17 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              <div className="flex items-center justify-between">
-                {/* "Lưu đăng nhập" (Save login) could be a checkbox here */}
-                <Link
-                  href="/forgot-password"
-                  className="text-sm text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
               <Button type="submit" className="w-full">
-                Log In
+                Sign Up
               </Button>
             </form>
           </Form>
           <div className="mt-6 text-center text-sm">
-            Don&apos;t have an account?{' '}
-            <Link href="/signup" className="font-medium text-primary hover:underline">
-              Sign up
+            Already have an account?{' '}
+            <Link href="/" className="font-medium text-primary hover:underline">
+              Log in
             </Link>
           </div>
-           {/* TODO: Add "Login with Google/Apple" buttons later */}
         </CardContent>
       </Card>
     </div>
