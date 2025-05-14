@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, List, LayoutGrid, PlusCircle, Edit2, Trash2, Filter } from 'lucide-react';
+import { ArrowLeft, List, LayoutGrid, PlusCircle, Edit2, Trash2, Filter, Search, Briefcase as BriefcaseIcon } from 'lucide-react'; // Added Search
 import { PageHeader } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -12,6 +12,7 @@ import { KanbanBoard } from '@/components/kanban-board';
 import { TaskForm } from '@/components/task-form';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Card } from '@/components/ui/card'; // Added Card import
 import { mockProjects, mockTasks, mockAssignees } from '@/lib/data';
 import type { Project, Task, TaskStatus } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
@@ -50,7 +51,7 @@ export default function ProjectDetailPage() {
   if (!project) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-center">
-        <Briefcase className="w-16 h-16 text-muted-foreground mb-4" />
+        <BriefcaseIcon className="w-16 h-16 text-muted-foreground mb-4" /> {/* Changed to BriefcaseIcon from lucide */}
         <h2 className="text-2xl font-semibold mb-2">Project Not Found</h2>
         <p className="text-muted-foreground mb-4">The project you are looking for does not exist or has been moved.</p>
         <Button asChild>
@@ -258,9 +259,10 @@ export default function ProjectDetailPage() {
 }
 
 // Helper component (could be moved)
-function Briefcase(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-  )
-}
+// Removed inline SVG for Briefcase as it's now imported from lucide-react
+// function Briefcase(props: React.SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+//   )
+// }
 
