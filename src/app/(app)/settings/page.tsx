@@ -6,13 +6,14 @@ import * as z from 'zod';
 import { PageHeader } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription as FormDescriptionComponent } from '@/components/ui/form'; // Renamed FormDescription to avoid conflict
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { mockUsers } from '@/lib/data'; // For demo
 import { UploadCloud } from 'lucide-react';
+import { Label } from '@/components/ui/label'; // Added import for Label
 
 const profileSchema = z.object({
   displayName: z.string().min(1, { message: 'Display name is required.' }),
@@ -89,9 +90,9 @@ export default function SettingsPage() {
                       <FormControl>
                         <Input placeholder="https://example.com/avatar.png" {...field} />
                       </FormControl>
-                       <FormDescription className="text-xs">
+                       <FormDescriptionComponent className="text-xs">
                         Or upload an image. (Upload functionality not implemented.)
-                      </FormDescription>
+                      </FormDescriptionComponent>
                        <Button type="button" variant="outline" size="sm" className="mt-2" disabled>
                         <UploadCloud className="mr-2 h-4 w-4" /> Upload Image
                        </Button>
@@ -122,7 +123,7 @@ export default function SettingsPage() {
                     <FormControl>
                       <Input type="email" placeholder="you@example.com" {...field} disabled />
                     </FormControl>
-                    <FormDescription>Your email address cannot be changed here.</FormDescription>
+                    <FormDescriptionComponent>Your email address cannot be changed here.</FormDescriptionComponent>
                     <FormMessage />
                   </FormItem>
                 )}
