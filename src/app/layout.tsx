@@ -1,14 +1,11 @@
 import type { Metadata } from 'next';
-import { GeistSans } from 'geist/font/sans'; // Changed import path
+import { GeistSans } from 'geist/font/sans';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"; // Added Toaster
+import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = GeistSans({ 
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-// Removed GeistMono as it's not explicitly requested and GeistSans is preferred for UI
+// The GeistSans object from 'geist/font/sans' directly provides the .variable property.
+// We don't need to call it as a function.
+// The variable name (e.g., '--font-geist-sans') is automatically provided.
 
 export const metadata: Metadata = {
   title: 'MinimaProject',
@@ -22,7 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} antialiased`}>
+      {/* Use GeistSans.variable directly */}
+      <body className={`${GeistSans.variable} antialiased`}>
         {children}
         <Toaster />
       </body>
